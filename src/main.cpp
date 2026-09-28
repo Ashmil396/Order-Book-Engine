@@ -1,19 +1,22 @@
 #include <iostream>
-#include "Order.h"
-
-void printOrder(const Order &o)
-{
-    std::cout << "Order " << o.id
-              << (o.side == Side::Buy ? " BUY" : " SELL")
-              << " price " << o.price
-              << " qty " << o.quantity << "\n";
-}
+#include "PriceLevel.h"
 
 int main()
 {
-    Order buy{1, Side::Buy, 502500, 100, 1};
+    PriceLevel level;
+    level.addOrder({1, Side::Buy, 502500, 100, 1});
+    level.addOrder({2, Side::Buy, 502500, 50, 2});
 
-    printOrder(buy);
+    std::cout << "Orders: " << level.orderCount()
+              << ", total qty: " << level.totalQuantity() << "\n";
+
+    level.reduceFront(30);
+    std::cout << "After partial fill, front qty: " << level.frontOrder().quantity
+              << ", total: " << level.totalQuantity() << "\n";
+
+    level.popFront();
+    std::cout << "After pop, front id: " << level.frontOrder().id
+              << ", total: " << level.totalQuantity() << "\n";
 
     return 0;
 }
