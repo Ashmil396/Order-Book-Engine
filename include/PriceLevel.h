@@ -11,6 +11,8 @@ public:
     // The oldest order at this level — the next one to get filled
     Order &frontOrder();
 
+    bool removeOrder(OrderId id);
+
     // Remove the oldest order (it got fully filled)
     void popFront();
 
